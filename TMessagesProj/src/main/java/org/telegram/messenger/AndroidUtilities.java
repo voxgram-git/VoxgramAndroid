@@ -1378,7 +1378,7 @@ public class AndroidUtilities {
             Linkify.addLinks(text, Linkify.PHONE_NUMBERS);
         }
         if ((mask & Linkify.WEB_URLS) != 0) {
-            gatherLinks(links, text, LinkifyPort.WEB_URL, new String[]{"http://", "https://", "tg://", "tonsite://"}, sUrlMatchFilter, internalOnly);
+            gatherLinks(links, text, LinkifyPort.WEB_URL, new String[]{"http://", "https://", "vg://", "tonsite://"}, sUrlMatchFilter, internalOnly);
         }
         pruneOverlaps(links);
         if (links.size() == 0) {
@@ -3657,7 +3657,7 @@ public class AndroidUtilities {
         }
         File storageDir = null;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Telegram");
+            storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Voxgram");
             if (!storageDir.mkdirs()) {
                 if (!storageDir.exists()) {
                     if (BuildVars.LOGS_ENABLED) {
@@ -4593,7 +4593,7 @@ public class AndroidUtilities {
                 if (scheme != null) {
                     if ((scheme.equals("http") || scheme.equals("https"))) {
                         String host = data.getHost().toLowerCase();
-                        if (host.equals("telegram.me") || host.equals("t.me") || host.equals("telegram.dog")) {
+                        if (host.equals("voxgram.fun") || host.equals("www.voxgram.fun")) {
                             String path = data.getPath();
                             if (path != null) {
                                 if (path.startsWith("/socks") || path.startsWith("/proxy")) {
@@ -4608,10 +4608,10 @@ public class AndroidUtilities {
                                 }
                             }
                         }
-                    } else if (scheme.equals("tg")) {
+                    } else if (scheme.equals("vg")) {
                         String url = data.toString();
-                        if (url.startsWith("tg:proxy") || url.startsWith("tg://proxy") || url.startsWith("tg:socks") || url.startsWith("tg://socks")) {
-                            url = url.replace("tg:proxy", "tg://telegram.org").replace("tg://proxy", "tg://telegram.org").replace("tg://socks", "tg://telegram.org").replace("tg:socks", "tg://telegram.org");
+                        if (url.startsWith("vg:proxy") || url.startsWith("vg://proxy") || url.startsWith("vg:socks") || url.startsWith("vg://socks")) {
+                            url = url.replace("vg:proxy", "vg://voxgram.fun").replace("vg://proxy", "vg://voxgram.fun").replace("vg://socks", "vg://voxgram.fun").replace("vg:socks", "vg://voxgram.fun");
                             data = Uri.parse(url);
                             address = data.getQueryParameter("server");
                             if (AndroidUtilities.checkHostForPunycode(address)) {

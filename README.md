@@ -1,39 +1,60 @@
-## Telegram messenger for Android
+## Voxgram for Android
 
-[Telegram](https://telegram.org) is a messaging app with a focus on speed and security. It’s superfast, simple and free.
-This repo contains the official source code for [Telegram App for Android](https://play.google.com/store/apps/details?id=org.telegram.messenger).
+Voxgram is a fast, simple and free messenger. This repository contains the source code of the Voxgram Android client.
 
-## Creating your Telegram Application
+Website: [voxgram.fun](https://voxgram.fun)
 
-We welcome all developers to use our API and source code to create applications on our platform.
-There are several things we require from **all developers** for the moment.
+### Server
 
-1. [**Obtain your own api_id**](https://core.telegram.org/api/obtaining_api_id) for your application.
-2. Please **do not** use the name Telegram for your app — or make sure your users understand that it is unofficial.
-3. Kindly **do not** use our standard logo (white paper plane in a blue circle) as your app's logo.
-3. Please study our [**security guidelines**](https://core.telegram.org/mtproto/security_guidelines) and take good care of your users' data and privacy.
-4. Please remember to publish **your** code too in order to comply with the licences.
+The client connects to the Voxgram server:
 
-### API, Protocol documentation
+- all data centers: `31.77.10.99:20443`
+  (`TMessagesProj/jni/tgnet/ConnectionsManager.cpp`, `initDatacenters`)
+- server RSA public key, fingerprint `0xc047ed25f892fc0e`
+  (`TMessagesProj/jni/tgnet/Handshake.cpp`, `TMessagesProj/jni/tgnet/Datacenter.cpp`) — the same key as in
+  [VoxgramDesktop](https://github.com/voxgram-git/VoxgramDesktop)
 
-Telegram API manuals: https://core.telegram.org/api
+If you run your own server, replace the address and the key in those files.
 
-MTproto protocol manuals: https://core.telegram.org/mtproto
+### Links
+
+- Deep-link scheme: `vg://` (for example `vg://resolve?domain=username`).
+- `https://voxgram.fun/...` links are opened inside the app.
+- For links from other apps (browsers, other messengers) to open directly in Voxgram on Android 12+,
+  publish `Tools/voxgram.fun/.well-known/assetlinks.json` at
+  `https://voxgram.fun/.well-known/assetlinks.json`. Replace the SHA-256 fingerprint in it with the
+  fingerprint of the key you sign release builds with:
+
+  ```
+  keytool -list -v -keystore TMessagesProj/config/release.keystore
+  ```
+
+### Building on GitHub Actions
+
+The `Build APK` workflow (`.github/workflows/build.yml`) builds the app on GitHub's servers:
+
+- **Actions → Build APK → Run workflow**, choose `release`, `standalone` or `debug`; the APK appears in the
+  run's artifacts (a full build takes about 50 minutes).
+- Pushing a tag like `v12.6.3` builds the release APK and attaches it to a GitHub release.
+- To sign with your own key add repository secrets `KEYSTORE_BASE64` (`base64 -w0 your.keystore`),
+  `KEYSTORE_PASSWORD`, `KEY_ALIAS` and `KEY_PASSWORD`. Without them the test key from
+  `TMessagesProj/config/release.keystore` is used.
 
 ### Compilation Guide
 
-**Note**: In order to support [reproducible builds](https://core.telegram.org/reproducible-builds), this repo contains dummy release.keystore,  google-services.json and filled variables inside BuildVars.java. Before publishing your own APKs please make sure to replace all these files with your own.
+**Note**: this repo contains a dummy release.keystore, google-services.json and filled variables inside BuildVars.java. Before publishing your own APKs please make sure to replace all these files with your own.
 
 You will require Android Studio 3.4, Android NDK rev. 20 and Android SDK 8.1
 
-1. Download the Telegram source code from https://github.com/loyldg/mytelegram-android ( git clone https://github.com/loyldg/mytelegram-android.git )
+1. Clone the source code: `git clone https://github.com/voxgram-git/VoxgramAndroid.git`
 2. Copy your release.keystore into TMessagesProj/config
-3. Fill out RELEASE_KEY_PASSWORD, RELEASE_KEY_ALIAS, RELEASE_STORE_PASSWORD in gradle.properties to access your  release.keystore
-4.  Go to https://console.firebase.google.com/, create two android apps with application IDs org.telegram.messenger and org.telegram.messenger.beta, turn on firebase messaging and download google-services.json, which should be copied to the same folder as TMessagesProj.
+3. Fill out RELEASE_KEY_PASSWORD, RELEASE_KEY_ALIAS, RELEASE_STORE_PASSWORD in gradle.properties to access your release.keystore
+4. Go to https://console.firebase.google.com/, create two android apps with application IDs fun.voxgram.messenger and fun.voxgram.messenger.beta, turn on firebase messaging and download google-services.json, which should be copied to the same folder as TMessagesProj.
 5. Open the project in the Studio (note that it should be opened, NOT imported).
-6. Fill out values in TMessagesProj/src/main/java/org/telegram/messenger/BuildVars.java – there’s a link for each of the variables showing where and which data to obtain.
-7. You are ready to compile Telegram.
+6. Fill out values in TMessagesProj/src/main/java/org/telegram/messenger/BuildVars.java.
+7. You are ready to compile Voxgram.
 
-### Localization
+### License
 
-We moved all translations to https://translations.telegram.org/en/android/. Please use it.
+Voxgram for Android is based on open source code licensed under GNU GPL v. 2 or later, see [LICENSE](LICENSE).
+The original copyright notices in the source files are kept as the license requires.

@@ -207,13 +207,13 @@ public class Browser {
         if (link.startsWith("@")) {
             return link.substring(1);
         }
-        if (link.startsWith("t.me/")) {
+        if (link.startsWith("voxgram.fun/")) {
             return link.substring(5);
         }
-        if (link.startsWith("http://t.me/")) {
+        if (link.startsWith("http://voxgram.fun/")) {
             return link.substring(12);
         }
-        if (link.startsWith("https://t.me/")) {
+        if (link.startsWith("https://voxgram.fun/")) {
             return link.substring(13);
         }
         Matcher prefixMatcher = LaunchActivity.PREFIX_T_ME_PATTERN.matcher(link);
@@ -226,8 +226,8 @@ public class Browser {
     public static boolean urlMustNotHaveConfirmation(String url) {
         return (
             isTelegraphUrl(url, false, true) ||
-            url.matches("^(https://)?t\\.me/iv\\??(/.*|$)") || // t.me/iv?
-            url.matches("^(https://)?telegram\\.org/(blog|tour)(/.*|$)") || // telegram.org/blog, telegram.org/tour
+            url.matches("^(https://)?voxgram\\.fun/iv\\??(/.*|$)") || // voxgram.fun/iv?
+            url.matches("^(https://)?voxgram\\.fun/(blog|tour)(/.*|$)") || // voxgram.fun/blog, voxgram.fun/tour
             url.matches("^(https://)?fragment\\.com(/.*|$)") // fragment.com
         );
     }
@@ -307,7 +307,7 @@ public class Browser {
         if (tryTelegraph) {
             try {
                 String host = AndroidUtilities.getHostAuthority(uri);
-                if (UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser() != null && (isTelegraphUrl(host, true) || "telegram.org".equalsIgnoreCase(host) && (uri.toString().toLowerCase().contains("telegram.org/faq") || uri.toString().toLowerCase().contains("telegram.org/privacy") || uri.toString().toLowerCase().contains("telegram.org/blog")))) {
+                if (UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser() != null && (isTelegraphUrl(host, true) || "voxgram.fun".equalsIgnoreCase(host) && (uri.toString().toLowerCase().contains("voxgram.fun/faq") || uri.toString().toLowerCase().contains("voxgram.fun/privacy") || uri.toString().toLowerCase().contains("voxgram.fun/blog")))) {
                     final AlertDialog[] progressDialog = new AlertDialog[] {
                         new AlertDialog(context, AlertDialog.ALERT_TYPE_SPINNER)
                     };
@@ -644,7 +644,7 @@ public class Browser {
         }
         try {
             url = url.toLowerCase();
-            if (url.startsWith("tg:passport") || url.startsWith("tg://passport") || url.startsWith("tg:secureid") || url.contains("resolve") && url.contains("domain=telegrampassport")) {
+            if (url.startsWith("vg:passport") || url.startsWith("vg://passport") || url.startsWith("vg:secureid") || url.contains("resolve") && url.contains("domain=telegrampassport")) {
                 return true;
             }
         } catch (Throwable ignore) {
@@ -680,7 +680,7 @@ public class Browser {
 
         Matcher prefixMatcher = LaunchActivity.PREFIX_T_ME_PATTERN.matcher(host);
         if (prefixMatcher.find()) {
-            uri = Uri.parse("https://t.me/" + prefixMatcher.group(1) + (TextUtils.isEmpty(uri.getPath()) ? "" : "/" + uri.getPath()) + (TextUtils.isEmpty(uri.getQuery()) ? "" : "?" + uri.getQuery()));
+            uri = Uri.parse("https://voxgram.fun/" + prefixMatcher.group(1) + (TextUtils.isEmpty(uri.getPath()) ? "" : "/" + uri.getPath()) + (TextUtils.isEmpty(uri.getQuery()) ? "" : "?" + uri.getQuery()));
 
             host = uri.getHost();
             host = host != null ? host.toLowerCase() : "";
@@ -697,16 +697,16 @@ public class Browser {
 
             }
             return true;
-        } else if ("tg".equals(uri.getScheme())) {
+        } else if ("vg".equals(uri.getScheme())) {
             return true;
-        } else if ("telegram.dog".equals(host)) {
+        } else if ("voxgram.fun".equals(host) || "www.voxgram.fun".equals(host)) {
             String path = uri.getPath();
             if (path != null && path.length() > 1) {
                 if (all) {
                     return true;
                 }
                 path = path.substring(1).toLowerCase();
-                if (path.startsWith("blog") || path.equals("iv") || path.startsWith("faq") || path.equals("apps") || path.startsWith("s/")) {
+                if (path.startsWith("blog") || path.equals("iv") || path.startsWith("faq") || path.equals("apps") || path.equals("dl") || path.startsWith("s/")) {
                     if (forceBrowser != null) {
                         forceBrowser[0] = true;
                     }
@@ -714,25 +714,8 @@ public class Browser {
                 }
                 return true;
             }
-        } else if ("telegram.me".equals(host) || "t.me".equals(host)) {
-            String path = uri.getPath();
-            if (path != null && path.length() > 1) {
-                if (all) {
-                    return true;
-                }
-                path = path.substring(1).toLowerCase();
-                if (path.equals("iv") || path.startsWith("s/")) {
-                    if (forceBrowser != null) {
-                        forceBrowser[0] = true;
-                    }
-                    return false;
-                }
-                return true;
-            }
-        } else if ("telegram.org".equals(host) && uri != null && uri.getPath() != null && uri.getPath().startsWith("/blog/")) {
-            return true;
         } else if (all) {
-            if (host.endsWith("telegram.org") || host.endsWith("telegra.ph") || host.endsWith("telesco.pe")) {
+            if (host.endsWith("voxgram.fun") || host.endsWith("telegra.ph") || host.endsWith("telesco.pe")) {
                 return true;
             }
         }

@@ -1505,12 +1505,12 @@ TL_help_configSimple *Datacenter::decodeSimpleConfig(NativeByteBuffer *buffer) {
 
     static std::string public_key =
             "-----BEGIN RSA PUBLIC KEY-----\n"
-                                                     "MIIBCgKCAQEAu+3tvscWDAlEvVylTeMr5FpU2AjgqzoQHPjzp69r0YAtq0a8rX0M\n"
-                                                     "Ue78F/FRAqBaEbZW6WBzF3AjOlNYpOtvvwGhl9rGCgziunbd9nwcKJBMDWS9O7Mz\n"
-                                                     "/8xjz/swIB4V56XcjOhrjUHJ/GniFKoum00xeEcYnr5xnLesvpVMq97Ga6b+xt3H\n"
-                                                     "RftHY/Zy1dG5zs8upuiAOlEiKilhu1IthfMjFG3NF6TiGrO9YU3YixFbJy67jtHk\n"
-                                                     "v5FarscM2fC5iWQ2eP1y6jXR64sGU3QjncvozYOePrH9jGcnmzUmj42x/H28IjJQ\n"
-                                                     "9EjEc22sPOuauK0IF2QiCGh+TfsKCK189wIDAQAB\n"
+                                                     "MIIBCgKCAQEAh5H3Mpupd/sNQyWm8WXA871TgJMEthFrh+c3LNzNzg9U6xvE3bTJ\n"
+                                                     "cbIBaOWlm8E+3vcqJ5ZktnX4cw3UWCutn4/D2FqOrNK26klBSE30A1Fs6T+murjx\n"
+                                                     "EkYkgckPkLPdG4lH8gIOxu8ZFn6EXC6hnELVl3pQx9lmrDFntD87o0Xll5a63Dzc\n"
+                                                     "5VFy3zyc6QtMC2K0OF2sqiT2rZZYe38+oxCCucFfef1a1RIaUX4D+1b3hFsv3JWP\n"
+                                                     "V0hI4+575avrqeWkUqf5bkOSous8tV5WUKXdnH6Cn+dheSKowBYk7NT/ceP+DQOz\n"
+                                                     "jhOJEJH0CxBfkRGoyx1d4Cpdo9Hg7dIlRwIDAQAB\n"
                                                      "-----END RSA PUBLIC KEY-----"
                                                      ;
 
