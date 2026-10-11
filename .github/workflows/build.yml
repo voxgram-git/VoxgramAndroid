@@ -14,9 +14,6 @@ on:
   push:
     tags:
       - "v*"
-    # TEMP: verify the workflow before it lands on the default branch
-    branches:
-      - claude/voxgram-client-rebrand-bynv1b
 
 permissions:
   contents: write
