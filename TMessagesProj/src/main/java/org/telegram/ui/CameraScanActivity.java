@@ -160,6 +160,18 @@ public class CameraScanActivity extends BaseFragment {
     public static final int TYPE_QR_LOGIN = 2;
     public static final int TYPE_QR_WEB_BOT = 3;
 
+    private static final String QR_LOGIN_PREFIX = "vg://login?token=";
+    // VoxgramDesktop still shows its login QR codes with the old scheme
+    private static final String QR_LOGIN_PREFIX_LEGACY = "tg://login?token=";
+
+    public static boolean isQrLoginLink(String text) {
+        return text != null && (text.startsWith(QR_LOGIN_PREFIX) || text.startsWith(QR_LOGIN_PREFIX_LEGACY));
+    }
+
+    public static String getQrLoginToken(String link) {
+        return link.substring(link.startsWith(QR_LOGIN_PREFIX_LEGACY) ? QR_LOGIN_PREFIX_LEGACY.length() : QR_LOGIN_PREFIX.length());
+    }
+
     public interface CameraScanActivityDelegate {
         default void didFindMrzInfo(MrzRecognizer.Result result) {
 
@@ -1383,7 +1395,7 @@ public class CameraScanActivity extends BaseFragment {
                 Uri uri = Uri.parse(text);
                 String path = uri.getPath().replace("/", "");
             } else {
-                if (currentType == TYPE_QR_LOGIN && !text.startsWith("vg://login?token=")) {
+                if (currentType == TYPE_QR_LOGIN && !isQrLoginLink(text)) {
                     onNoQrFound();
                     return null;
                 }
