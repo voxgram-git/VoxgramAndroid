@@ -2237,7 +2237,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			groupCall.call.can_change_join_muted = true;
 			groupCall.call.rtmp_stream = isRtmpStream;
 			if (joinConference instanceof TLRPC.TL_inputGroupCallSlug) {
-				groupCall.call.invite_link = "https://t.me/call/" + joinConference.slug;
+				groupCall.call.invite_link = "https://voxgram.fun/call/" + joinConference.slug;
 			}
 			groupCall.chatId = 0;
 			groupCall.currentAccount = AccountInstance.getInstance(currentAccount);
@@ -4644,7 +4644,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 				Instance.setBufferSize(AudioTrack.getMinBufferSize(48000, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT) / 2);
 			}
 
-			cpuWakelock = ((PowerManager) getSystemService(POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "telegram-voip");
+			cpuWakelock = ((PowerManager) getSystemService(POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "voxgram-voip");
 			cpuWakelock.acquire();
 
 			btAdapter = am.isBluetoothScoAvailableOffCall() ? BluetoothAdapter.getDefaultAdapter() : null;
@@ -4901,7 +4901,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 		Sensor proximity = sm.getDefaultSensor(Sensor.TYPE_PROXIMITY);
 		try {
 			if (proximity != null) {
-				proximityWakelock = ((PowerManager) getSystemService(Context.POWER_SERVICE)).newWakeLock(PROXIMITY_SCREEN_OFF_WAKE_LOCK, "telegram-voip-prx");
+				proximityWakelock = ((PowerManager) getSystemService(Context.POWER_SERVICE)).newWakeLock(PROXIMITY_SCREEN_OFF_WAKE_LOCK, "voxgram-voip-prx");
 				sm.registerListener(this, proximity, SensorManager.SENSOR_DELAY_NORMAL);
 			}
 		} catch (Exception x) {

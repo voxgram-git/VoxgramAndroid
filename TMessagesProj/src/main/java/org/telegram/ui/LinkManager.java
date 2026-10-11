@@ -86,7 +86,7 @@ public class LinkManager {
         if ("http".equalsIgnoreCase(scheme) || "https".equalsIgnoreCase(scheme))
             return handleHttp(uri);
 
-        if ("tg".equalsIgnoreCase(scheme))
+        if ("vg".equalsIgnoreCase(scheme))
             return handleTg(uri);
 
         return false;
@@ -102,11 +102,11 @@ public class LinkManager {
         if (host == null) return false;
         final Matcher prefixMatcher = LaunchActivity.PREFIX_T_ME_PATTERN.matcher(host.toLowerCase());
         final boolean isPrefix = prefixMatcher.find();
-        if (!"telegram.me".equalsIgnoreCase(host) && !"t.me".equalsIgnoreCase(host) && !"telegram.dog".equalsIgnoreCase(host) && !isPrefix)
+        if (!"voxgram.fun".equalsIgnoreCase(host) && !"www.voxgram.fun".equalsIgnoreCase(host) && !isPrefix)
             return false;
 
         if (isPrefix) {
-            uri = Uri.parse("https://t.me/" + prefixMatcher.group(1) + (TextUtils.isEmpty(uri.getPath()) ? "" : uri.getPath()) + (TextUtils.isEmpty(uri.getQuery()) ? "" : "?" + uri.getQuery()));
+            uri = Uri.parse("https://voxgram.fun/" + prefixMatcher.group(1) + (TextUtils.isEmpty(uri.getPath()) ? "" : uri.getPath()) + (TextUtils.isEmpty(uri.getQuery()) ? "" : "?" + uri.getQuery()));
         }
 
         String path = uri.getPath();
@@ -255,7 +255,7 @@ public class LinkManager {
         return false;
     }
 
-    // tg://resolve
+    // vg://resolve
     private boolean handleTgResolve(Uri uri) {
         final List<String> _segments = uri.getPathSegments();
         if (_segments == null) return false;
@@ -275,7 +275,7 @@ public class LinkManager {
         return false;
     }
 
-    // tg://settings/*
+    // vg://settings/*
     private boolean handleSettings(final List<String> segments) {
         if (segments == null) return false;
         if (segments.isEmpty()) {
@@ -1473,7 +1473,7 @@ public class LinkManager {
                     String host = uri.getHost().toLowerCase();
                     Matcher prefixMatcher = LaunchActivity.PREFIX_T_ME_PATTERN.matcher(host);
                     boolean isPrefix = prefixMatcher.find();
-                    if (host.equals("telegram.me") || host.equals("t.me") || host.equals("telegram.dog") || isPrefix) {
+                    if (host.equals("voxgram.fun") || host.equals("www.voxgram.fun") || isPrefix) {
                         ArrayList<String> segments = new ArrayList<>(uri.getPathSegments());
                         if (segments.size() > 0 && segments.get(0).equals("s")) {
                             segments.remove(0);
@@ -1512,8 +1512,8 @@ public class LinkManager {
                     }
                     break;
                 }
-                case "tg": {
-                    if (url.startsWith("tg:resolve") || url.startsWith("tg://resolve")) {
+                case "vg": {
+                    if (url.startsWith("vg:resolve") || url.startsWith("vg://resolve")) {
                         return !TextUtils.isEmpty(uri.getQueryParameter("appname"));
                     }
                     break;
