@@ -29,6 +29,17 @@ If you run your own server, replace the address and the key in those files.
   keytool -list -v -keystore TMessagesProj/config/release.keystore
   ```
 
+### Building on GitHub Actions
+
+The `Build APK` workflow (`.github/workflows/build.yml`) builds the app on GitHub's servers:
+
+- **Actions → Build APK → Run workflow**, choose `release`, `standalone` or `debug`; the APK appears in the
+  run's artifacts (a full build takes about 50 minutes).
+- Pushing a tag like `v12.6.3` builds the release APK and attaches it to a GitHub release.
+- To sign with your own key add repository secrets `KEYSTORE_BASE64` (`base64 -w0 your.keystore`),
+  `KEYSTORE_PASSWORD`, `KEY_ALIAS` and `KEY_PASSWORD`. Without them the test key from
+  `TMessagesProj/config/release.keystore` is used.
+
 ### Compilation Guide
 
 **Note**: this repo contains a dummy release.keystore, google-services.json and filled variables inside BuildVars.java. Before publishing your own APKs please make sure to replace all these files with your own.
