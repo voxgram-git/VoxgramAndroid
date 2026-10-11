@@ -57,6 +57,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.regex.Pattern;
 
 public class LocaleController {
 
@@ -1200,6 +1201,27 @@ public class LocaleController {
         }
     }
 
+    private static final Pattern BRAND_LINK_PATTERN = Pattern.compile("(?<![\\w.-])(?:(?:[a-z0-9-]+\\.)*telegram\\.org|telegram\\.(?:me|dog)|t\\.me)(?![\\w])");
+    private static final String[][] BRAND_NAMES = {
+        {"tg://", "vg://"}, {"Telegram", "Voxgram"}, {"TELEGRAM", "VOXGRAM"}, {"telegram", "voxgram"},
+        {"Телеграм", "Воксграм"}, {"телеграм", "воксграм"}, {"ТЕЛЕГРАМ", "ВОКСГРАМ"},
+        {"تيليجرام", "فوكسجرام"}, {"تلگرام", "وکسگرام"}, {"텔레그램", "복스그램"},
+        {"テレグラム", "ヴォクスグラム"}, {"טלגרם", "ווקסגרם"}
+    };
+
+    // cloud language packs come from the server and may still carry the old brand
+    private static String rebrand(String value) {
+        if (value.contains("t.me") || value.contains("telegram.")) {
+            value = BRAND_LINK_PATTERN.matcher(value).replaceAll("voxgram.fun");
+        }
+        for (String[] pair : BRAND_NAMES) {
+            if (value.contains(pair[0])) {
+                value = value.replace(pair[0], pair[1]);
+            }
+        }
+        return value;
+    }
+
     private HashMap<String, String> getLocaleFileStrings(File file) {
         return getLocaleFileStrings(file, false);
     }
@@ -1253,7 +1275,7 @@ public class LocaleController {
                     name = null;
                 }
                 if (name != null && name.equals("string") && value != null && attrName != null && value.length() != 0 && attrName.length() != 0) {
-                    stringMap.put(attrName, value);
+                    stringMap.put(attrName, rebrand(value));
                     name = null;
                     value = null;
                     attrName = null;
